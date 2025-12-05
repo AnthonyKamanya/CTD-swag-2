@@ -1,6 +1,6 @@
 # E-Commerce App
 
-A simple web application to on setup up an e-commerce store. You can add new products, e them when they're no longer needed.
+A simple web application to on setup up an e-commerce store. You can add new products, remove them when they're no longer needed.
 
 ## Features
 
