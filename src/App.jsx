@@ -7,10 +7,32 @@ import ProductCard from './ProductCard';
 
 function App() {
   const [inventory, setInventory] = useState([]);
+  const [cart, setCart] = useState([]);
+
+  const handleAddItemToCart = (id) => {
+    const foundInventoryItem = inventory.find((item) => item.id === id);
+    if (!foundInventoryItem) {
+      console.error('cart error: item not found');
+      return;
+    }
+    const cartItem = { ...foundInventoryItem, cartItemId: Date.now() };
+    console.log(cartItem);
+    setCart([...cart, cartItem]);
+  };
+
+  const removeItemFromCart = (id) => {
+    const updatedCart = cart.filter((item) => item.id !== id);
+    setCart([...updatedCart]);
+  };
 
   useEffect(() => {
-    setInventory([...inventoryData.inventory]);
-  }, []);
+    cart.forEach((item) => {
+      console.log(item.baseName, item.cartItemId);
+    });
+    if (cart.length > 0) {
+      console.log('--end of cart--');
+    }
+  });
 
   function promoteItem() {
     return (
@@ -23,8 +45,11 @@ function App() {
 
   return (
     <>
-      <Header />
-      <ProductList inventory={inventory}>{promoteItem()}</ProductList>
+      <Header cart={cart} />
+      <ProductList
+        inventory={inventory}
+        handleAddItemToCart={handleAddItemToCart}
+      />
     </>
   );
 }
