@@ -1,70 +1,263 @@
+:root {
+  --primary-color: #646cff;      /* main button/header color */
+  --primary-hover: #5450d4;      /* hover state */
+  --secondary-color: #ff7f50;    /* variant button */
+  --secondary-hover: #e26a3f;    /* variant hover */
+  --header-bg: #a4a4c4;          /* header background */
+  --header-text: #fff;            /* header text */
+  --card-bg: #fff;                /* card background */
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --text-color: #333;             /* main text */
+  --text-muted: #555;             /* secondary text */
+  --spacing: 1rem;                /* base spacing */
+  --radius: 8px;                  /* border radius for cards/buttons */
+  --gap: 24px;                     /* gap between cards */
+}
+
+/* ==============================
+   GLOBAL RESET & ROOT
+============================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: var(--text-color);
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: calc(var(--spacing) * 2);
   text-align: center;
+}.header {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: var(--spacing) calc(var(--spacing) * 2);
+  background-color: var(--header-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px var(--card-shadow);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Logo in top-left corner */
+.header .logo {
+  grid-row: 1;
+  grid-column: 1;
+  height: 60px;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.header {
-  background-color: rgb(164, 164, 196);
+.header .logo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px #646cffaa);
 }
 
+/* Cart in top-right corner */
+.header .cart {
+  grid-row: 1;
+  grid-column: 3;
+  height: 60px;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.header .cart:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px #646cffaa);
+}
+
+/* CTD Swag centered */
+.header h1 {
+  grid-row: 2;
+  grid-column: 1 / 4;
+  justify-self: center;
+  font-size: 2rem;
+  color: var(--header-text);
+}
+
+/* Coming soon centered at bottom */
+.header h2 {
+  grid-row: 3;
+  grid-column: 1 / 4;
+  justify-self: center;
+  font-size: 1rem;
+  color: #eee;
+  font-weight: normal;
+}
+
+/* ==============================
+   PRODUCT LIST GRID
+============================== */
 .productListContainer {
-  justify-content: center;
-  align-content: flex-start;
-  padding: 75px;
+  padding: calc(var(--spacing) * 2) 0;
 }
 
 .container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  gap: 16px;
-}
-.picture {
-  height: 75px;
+  justify-content: center;
+  gap: var(--gap);
 }
 
-.itemCard {
-  font-size-adjust: 0.1;
-  display: grid;
-  grid-template-columns: max-content;
-  background-color: grey;
+/* ==============================
+   PRODUCT CARD
+============================== */
+.productCard {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px var(--card-shadow);
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.productCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+.productPreview {
+  text-align: center;
+  margin-bottom: var(--spacing);
+}
+
+.productPreview .picture {
+  height: 120px;
+  width: auto;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.productCopy h1 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.productCopy p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.productButtons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing);
+  margin-top: 0.5rem;
+}
+
+.productButtons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.productButtons button:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+/* ==============================
+   VARIANT DRAWER
+============================== */
+.productVariantsWrapper {
+  margin-top: var(--spacing);
+  padding: var(--spacing);
+  border-top: 1px solid #ddd;
+  background-color: #fafafa;
+  border-radius: var(--radius);
+}
+
+.productVariant {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.variantPreview img {
+  height: 60px;
+  width: auto;
   border-radius: 4px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.variantDetails h3 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+.variantDetails p {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.variantDetails button {
+  padding: 0.3rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--secondary-color);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.variantDetails button:hover {
+  background-color: var(--secondary-hover);
+}
+
+.variantCloseButton {
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #bbb;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.variantCloseButton:hover {
+  background-color: #999;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .productCard {
+    width: 90%;
+  }
 
-.read-the-docs {
-  color: #888;
+  .header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .logoCart {
+    justify-content: center;
+  }
 }
