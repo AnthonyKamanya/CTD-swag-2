@@ -1,19 +1,22 @@
 import viteLogo from '/vite.svg';
 import shoppingCart from './assets/icons/shoppingCart.svg';
-const Header = ({cart}) => {
+const Header = ({ cart, handleOpenCart }) => {
+  const getItemCount = () => {
+    return cart.reduce((acc, item) => acc + item.itemCount, 0);
+  };
   return (
-    <>
-      <ul>
-        <div className="header">
-          <h1>CTD Swag</h1>
-          <div style={{ height: 100, width: 100 }}>
-            <img src={viteLogo} alt="Code The Dream Logo" className='logo' />
-            <img src={shoppingCart} alt="cart" className='cart'/>
-          </div>
-          <h2>coming soon...</h2>
-        </div>
-      </ul>
-    </>
+    <header className="header">
+      <div className="siteBranding">
+        <img src={viteLogo} alt="Code The Dream Logo" />
+        <h1>CTD Swag</h1>
+      </div>
+      <div className="shoppingCart">
+        <button type="button" onClick={handleOpenCart}>
+          <img src={shoppingCart} alt="" />
+          <p className="cartCount">{getItemCount()}</p>
+        </button>
+      </div>
+    </header>
   );
 };
 

@@ -3,10 +3,27 @@ import './App.css';
 import inventoryData from './assets/inventory.json';
 import ProductList from './ProductList';
 import Header from './Header';
+import Cart from './Cart';
 
 function App() {
   const [inventory, setInventory] = useState(inventoryData.inventory);
   const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const year = new Date();
+  const handleCloseCart = () => {
+    //prevents re-render if unchanged
+    if (isCartOpen) {
+      setIsCartOpen(false);
+    }
+  };
+
+  const handleOpenCart = () => {
+    //prevents re-render if unchanged
+    if (isCartOpen) {
+      setIsCartOpen(true);
+    }
+  };
 
   const handleAddItemToCart = (id) => {
     const foundInventoryItem = inventory.find((item) => item.id === id);
@@ -14,10 +31,17 @@ function App() {
       console.error('cart error: item not found');
       return;
     }
-    const cartItem = { ...foundInventoryItem, cartItemId: Date.now() };
-    console.log(cartItem);
-    setCart([...cart, cartItem]);
-    console.log(cart.length);
+    const itemToUpdate = cart.find((item) => item.id === id);
+    let updatedCartItem;
+    if (itemToUpdate) {
+      updatedCartItem = {
+        ...itemToUpdate,
+        itemCount: itemToUpdate.itemCount + 1,
+      };
+    } else {
+      updatedCartItem = { ...foundInventoryItem, itemCount: 1 };
+    }
+    setCart([...cart.filter((item) => item.id !== id), updatedCartItem]);
   };
 
   const removeItemFromCart = (id) => {
@@ -60,11 +84,24 @@ function App() {
 
   return (
     <>
-      <Header cart={cart} />
-      <ProductList
-        inventory={inventory}
-        handleAddItemToCart={handleAddItemToCart}
-      />
+      <Header cart={cart} handleOpenCart={handleOpenCart} />
+      {/*`isCartOpen has to be true for the cart to be rendered*/}
+      <div>
+        {' '}
+        {isCartOpen && <Cart cart={cart} handleCloseCart={handleCloseCart} />}
+      </div>
+      <main>
+        <ProductList
+          inventory={inventory}
+          handleAddItemToCart={handleAddItemToCart}
+        ></ProductList>
+      </main>
+      <footer>
+        <p>
+          Made with ✌🏿 | &copy; {year.getFullYear()}{' '}
+          <a href="https://codethedream.org/">CTD </a>
+        </p>
+      </footer>
     </>
   );
 }

@@ -51,7 +51,8 @@ const ProductList = ({ inventory, handleAddItemToCart }) => {
           {products.map((product) => {
             return (
               <ProductCard
-                key={product.id}
+                key={product.baseName}
+                id={product.baseName}
                 product={product}
                 handleAddItemToCart={handleAddItemToCart}
               />
